@@ -1,0 +1,165 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2020-03-01 23:49+CET\n"
+"PO-Revision-Date: 2020-07-29 00:03+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+"X-Generator: Poedit 2.4\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "General"
+msgstr "Général"
+
+msgid "Profiles"
+msgstr "Profils"
+
+msgid "Add new profile"
+msgstr "Ajouter un nouveau profile"
+
+msgid "Remove selected profile"
+msgstr "Remove selected profile"
+
+msgid "Move selected profile up"
+msgstr "Déplacer le profil sélectionné vers le haut"
+
+msgid "Move selected profile down"
+msgstr "Déplacer le profil sélectionné vers le bas"
+
+msgid "From Current Configuration"
+msgstr "Depuis la configuration courante"
+
+msgid "Save"
+msgstr "Sauver"
+
+msgid "Save and Apply"
+msgstr "Sauver et Appliquer"
+
+msgid "Cancel"
+msgstr "Annuler"
+
+msgid "Delete"
+msgstr "Supprimer"
+
+msgid "None"
+msgstr "Aucun"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Mode"
+msgstr "Mode"
+
+msgid "HTTP Proxy"
+msgstr "Proxy HTTP"
+
+msgid "HTTPS Proxy"
+msgstr "Proxy HTTPS"
+
+msgid "FTP Proxy"
+msgstr "Proxy FTP"
+
+msgid "SOCKS Proxy"
+msgstr "Proxy SOCKS"
+
+msgid "Ignored Hosts"
+msgstr "Ignorer les hôtes"
+
+msgid "Automatic configuration URL"
+msgstr "Adresse de configuration automatique"
+
+msgid "Deactivate Proxy"
+msgstr "Désactiver le Proxy"
+
+msgid "Activate Manual Proxy"
+msgstr "Activer le Proxy Manuel"
+
+msgid "Activate Automatic Proxy"
+msgstr "Activer le Proxy Automatique"
+
+msgid "Proxy Profiles"
+msgstr "Profils de proxy"
+
+msgid "Deactivated"
+msgstr "Désactivé"
+
+msgid "Manual"
+msgstr "Manuel"
+
+msgid "Automatic"
+msgstr "Automatique"
+
+msgid "Proxy: "
+msgstr "Proxy : "
+
+msgid "Profile: "
+msgstr "Profile : "
+
+msgid "Apply"
+msgstr "Appliquer"
+
+msgid "Edit"
+msgstr "Éditer"
+
+msgid "Reset"
+msgstr "Initialiser"
+
+msgid "About"
+msgstr "A propos"
+
+msgid "Settings"
+msgstr "Paramètres"
+
+msgid "Open Settings File"
+msgstr "Ouvrir le Fichier de Paramètres"
+
+msgid "Icon for no proxy"
+msgstr "Icône pour proxy désactivé"
+
+msgid "Icon for manual proxy"
+msgstr "Icône pour proxy manuel"
+
+msgid "Icon for automatic proxy"
+msgstr "Icône pour proxy automatique"
+
+msgid "Show status as first menu item"
+msgstr "Montrer le statut en premier dans le menu"
+
+msgid "Show open settings file"
+msgstr "Montrer l'ouverture du fichier de paramètres"
+
+msgid "Activate proxy mode when applying profile"
+msgstr "Activer le mode quand un profile est appliqué"
+
+msgid "Activate debug logs"
+msgstr "Activer les logs de debug"
+
+msgid "HTTP Proxy Host"
+msgstr "Serveur proxy HTTP"
+
+msgid "HTTPS Proxy Host"
+msgstr "Serveur proxy HTTPS"
+
+msgid "FTP Proxy Host"
+msgstr "Serveur proxy FTP"
+
+msgid "SOCKS Proxy Host"
+msgstr "Serveur proxy SOCKS"
+
+msgid "Ignored Hosts separated by \",\""
+msgstr "Hôtes ignorés séparés par \",\""
+
+msgid "Proxy Profiles Preferences"
+msgstr "Préférences Proxy Profils"
+
+msgid "Gnome-Shell Extension to swich easily between several proxy profiles."
+msgstr "Extension Gnome-Shell permettant de basculer facilement entre différents profils de proxy."

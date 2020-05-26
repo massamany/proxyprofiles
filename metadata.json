@@ -1,0 +1,11 @@
+{
+  "name": "Proxy Profiles",
+  "description": "Swich easily between several proxy profiles.",
+  "version": "1.0.0",
+  "uuid": "proxyprofiles@massamany.github.com",
+  "url": "https://github.com/massamany/proxyprofiles",
+  "gettext-domain": "proxyprofiles",
+  "shell-version": [
+    "3.36"
+  ]
+}
