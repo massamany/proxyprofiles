@@ -77,6 +77,15 @@ msgstr "Ignorer les hôtes"
 msgid "Automatic configuration URL"
 msgstr "Adresse de configuration automatique"
 
+msgid "Authentication"
+msgstr "Authentification"
+
+msgid "User"
+msgstr "Utilisateur"
+
+msgid "Password"
+msgstr "Mot de passe"
+
 msgid "Deactivate Proxy"
 msgstr "Désactiver le Proxy"
 

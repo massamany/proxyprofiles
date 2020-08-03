@@ -109,10 +109,10 @@ var ProxyConfig = class {
             let val1 = p1[key] || null;
             let val2 = p2[key] || null;
             if (key === 'ignored') {
-                val1 = val1.ignored ? val1.ignored.replace(/ /g, '') : val1.ignored;
-                val2 = val2.ignored ? val2.ignored.replace(/ /g, '') : val2.ignored;
+                val1 = val1 ? val1.replace(/ /g, '') : val1;
+                val2 = val2 ? val2.replace(/ /g, '') : val2;
             }
-            if (val1 != val2) {
+            if (val1 != val2) { // No strict here !
                 return false;
             } 
         }
@@ -130,6 +130,10 @@ var ProxyConfig = class {
 
                 httpHost: this.settings.getHttpHost(),
                 httpPort: this.settings.getHttpPort(),
+                
+                httpUseAuthentication: this.settings.getHttpUseAuthentication(),
+                httpAuthenticationUser: this.settings.getHttpAuthenticationUser(),
+                httpAuthenticationPassword: this.settings.getHttpAuthenticationPassword(),
 
                 httpsHost: this.settings.getHttpsHost(),
                 httpsPort: this.settings.getHttpsPort(),
@@ -160,6 +164,18 @@ var ProxyConfig = class {
         if (profile.mode == MANUAL.label) {
             this.settings.setHttpHost(profile.httpHost);
             this.settings.setHttpPort(profile.httpPort);
+
+            if (profile.httpUseAuthentication === true) {
+                Log.debug('Profile ' + name + ' uses http authentication.');
+                this.settings.setHttpUseAuthentication(true);
+                this.settings.setHttpAuthenticationUser(profile.httpAuthenticationUser);
+                this.settings.setHttpAuthenticationPassword(profile.httpAuthenticationPassword);
+            } else {
+                Log.debug('Profile ' + name + ' does not use http authentication.');
+                this.settings.setHttpUseAuthentication(false);
+                this.settings.setHttpAuthenticationUser('');
+                this.settings.setHttpAuthenticationPassword('');
+            }
 
             this.settings.setHttpsHost(profile.httpsHost);
             this.settings.setHttpsPort(profile.httpsPort);

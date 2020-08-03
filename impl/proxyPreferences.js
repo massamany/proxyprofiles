@@ -349,10 +349,18 @@ var ProxyPreferences = class {
                     this.recomputePortSensitive('Ftp');
                     this.recomputePortSensitive('Socks');
                 }
+
+                this.recomputeAuthenticationSensitive(mode);
             },
 
             recomputeSaveButtonSensitive(mode) {
-                this.profileSaveButton.set_sensitive(this.isUniqueName && (mode === MANUAL.label || mode === AUTO.label));
+                const authenOk = mode !== MANUAL.label
+                    || !this.profileAuthenticationActivateSwitch.active
+                    || (this.profileAuthenticationUserEntry.get_text() && this.profileAuthenticationPasswordEntry.get_text());
+                this.profileSaveButton.set_sensitive(
+                    this.isUniqueName
+                    && (mode === MANUAL.label || mode === AUTO.label)
+                    && authenOk);
             },
 
             recomputePortSensitive(proxyType) {
@@ -366,6 +374,15 @@ var ProxyPreferences = class {
                     portEntry.set_sensitive(false);
                     portEntry.set_text('');
                 }
+            },
+
+            recomputeAuthenticationSensitive(mode) {
+                Log.debug('Recomputing authentication sensitive for ' + mode);
+                this.profileAuthenticationActivateSwitch.set_sensitive(mode === MANUAL.label);
+                this.profileAuthenticationUserEntry.set_sensitive(
+                    mode === MANUAL.label && this.profileAuthenticationActivateSwitch.active);
+                this.profileAuthenticationPasswordEntry.set_sensitive(
+                    mode === MANUAL.label && this.profileAuthenticationActivateSwitch.active);
             },
 
             setProfile(profile) {
@@ -396,6 +413,10 @@ var ProxyPreferences = class {
                     this.profileSocksPortEntry.set_text('' + (profile.socksPort || ''));
                     this.profileIgnoredHostsEntry.set_text(profile.ignored || '');
 
+                    this.profileAuthenticationActivateSwitch.active = profile.httpUseAuthentication || false;
+                    this.profileAuthenticationUserEntry.set_text(profile.httpAuthenticationUser || '');
+                    this.profileAuthenticationPasswordEntry.set_text(profile.httpAuthenticationPassword || '');
+
                     this.profileAutomaticConfigURLEntry.set_text('');
                 } else if (profile.mode === AUTO.label) {
                     if (updateProfilesListbox) this.profileRowDetailLabel.set_text('(' + _('Automatic') + ')');
@@ -413,6 +434,10 @@ var ProxyPreferences = class {
                     this.profileFtpPortEntry.set_text('');
                     this.profileSocksPortEntry.set_text('');
                     this.profileIgnoredHostsEntry.set_text('');
+
+                    this.profileAuthenticationActivateSwitch.active = false;
+                    this.profileAuthenticationUserEntry.set_text('');
+                    this.profileAuthenticationPasswordEntry.set_text('');
 
                     this.profileAutomaticConfigURLEntry.set_text(profile.autoConfigUrl || '');
                 } else {
@@ -440,6 +465,10 @@ var ProxyPreferences = class {
                     profile.socksPort = this.profileSocksPortEntry.get_text();
                     profile.ignored = this.profileIgnoredHostsEntry.get_text();
 
+                    profile.httpUseAuthentication = this.profileAuthenticationActivateSwitch.active;
+                    profile.httpAuthenticationUser = this.profileAuthenticationUserEntry.get_text();
+                    profile.httpAuthenticationPassword = this.profileAuthenticationPasswordEntry.get_text();
+
                     delete profile.autoConfigUrl;
                 }
                 if (this.profileModeAutoRadio.active) {
@@ -454,6 +483,10 @@ var ProxyPreferences = class {
                     delete profile.ftpPort;
                     delete profile.socksPort;
                     delete profile.ignored;
+
+                    delete profile.httpUseAuthentication;
+                    delete profile.httpAuthenticationUser;
+                    delete profile.httpAuthenticationPassword;
 
                     profile.autoConfigUrl = this.profileAutomaticConfigURLEntry.get_text();
                 }
@@ -495,6 +528,20 @@ var ProxyPreferences = class {
                 self.recomputeNamesDuplicates();
             },
 
+            onAuthenticationActivateSwitchToggled() {
+                Log.debug('Switched authentication mode for ' + this.profile.name);
+                this.recomputeAuthenticationSensitive(MANUAL.label);
+                this.recomputeSaveButtonSensitive(MANUAL.label);
+            },
+
+            onProfileAuthenticationUserEntryChanged() {
+                this.recomputeSaveButtonSensitive(MANUAL.label);
+            },
+
+            onProfileAuthenticationPasswordEntryChanged() {
+                this.recomputeSaveButtonSensitive(MANUAL.label);
+            },
+
             getSelectedMode() {
                 if (this.profileModeManualRadio.active) return this.profileModeManualRadio.name;
                 if (this.profileModeAutoRadio.active) return this.profileModeAutoRadio.name;
@@ -534,6 +581,9 @@ var ProxyPreferences = class {
             'profileSocksPortEntry',
             'profileIgnoredHostsEntry',
             'profileAutomaticConfigURLEntry',
+            'profileAuthenticationActivateSwitch',
+            'profileAuthenticationUserEntry',
+            'profileAuthenticationPasswordEntry',
             'profileFromCurrentButton',
             'profileCancelButton',
             'profileSaveButton'

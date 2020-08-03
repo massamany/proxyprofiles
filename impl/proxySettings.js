@@ -92,6 +92,30 @@ var ProxySettings = class {
         this._setInt(this.proxySettingHttp, 'port', value);
     }
 
+    getHttpUseAuthentication() {
+        return this.proxySettingHttp.get_boolean('use-authentication');
+    }
+
+    setHttpUseAuthentication(value) {
+        this._setBoolean(this.proxySettingHttp, 'use-authentication', value);
+    }
+
+    getHttpAuthenticationUser() {
+        return this.proxySettingHttp.get_string('authentication-user');
+    }
+
+    setHttpAuthenticationUser(value) {
+        this._setStr(this.proxySettingHttp, 'authentication-user', value);
+    }
+
+    getHttpAuthenticationPassword() {
+        return this.proxySettingHttp.get_string('authentication-password');
+    }
+
+    setHttpAuthenticationPassword(value) {
+        this._setStr(this.proxySettingHttp, 'authentication-password', value);
+    }
+
     getHttpsHost() {
         return this.proxySettingHttps.get_string('host');
     }
@@ -149,19 +173,23 @@ var ProxySettings = class {
     }
         
     getIgnoredHosts() {
-        return this.proxySetting.get_strv('ignore-hosts').join(', ');
+        const tmp = this.proxySetting.get_strv('ignore-hosts').join(', ');
+        const defVal = this.proxySetting.get_default_value('ignore-hosts').get_strv().join(', ');
+        if (tmp && tmp !== defVal) return tmp;
+        else return '';
     }
         
     setIgnoredHosts(value) {
-        if (value) {
-            const tmp = value.replace(/ /g, '').split(',')
-            if (tmp != this.proxySetting.get_default_value('ignore-hosts').get_strv())
+        let tmp = value ? value.replace(/ /g, '') : value;
+        if (tmp) {
+            const defVal = this.proxySetting.get_default_value('ignore-hosts').get_strv().join(','); //No space here for join !
+            if (tmp != defVal) {
+               tmp = tmp.split(',')
                 this.proxySetting.set_strv('ignore-hosts', tmp);
-            else
-                this.proxySetting.reset('ignore-hosts');
+            }
+            else this.proxySetting.reset('ignore-hosts');
         }
-        else
-            this.proxySetting.reset('ignore-hosts');
+        else this.proxySetting.reset('ignore-hosts');
     }
         
     _setStr(settings, k, v) {
@@ -174,6 +202,13 @@ var ProxySettings = class {
     _setInt(settings, k, v) {
         if (v && v != settings.get_default_value(k).get_int32())
             settings.set_int(k, v);
+        else
+            settings.reset(k);
+    }
+    
+    _setBoolean(settings, k, v) {
+        if ((v === true || v === false) && v != settings.get_default_value(k).get_boolean())
+            settings.set_boolean(k, v);
         else
             settings.reset(k);
     }
