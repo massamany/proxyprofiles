@@ -93,21 +93,26 @@ var ProxyMenu = class {
         const profiles = this.config.getProfiles();
 
         if (profiles && profiles.length) {
-                this.commandProfiles = new PopupMenu.PopupSubMenuMenuItem(_('Proxy Profiles'), true);
+                let menuToUseForProfiles = this.menu;
+                let commandProfiles = undefined;
+                if (this.config.getShowProfilesAsSubMenu()) {
+                    commandProfiles = new PopupMenu.PopupSubMenuMenuItem(_('Proxy Profiles'), true);
+                    menuToUseForProfiles = commandProfiles.menu;
+                }
 
                 for (let profile of profiles) {
                     const profileMenuItem = new PopupMenu.PopupMenuItem(profile.name);
                     profileMenuItem.connect('activate', () => this.config.applyProfile(profile.name));
-                    this.commandProfiles.menu.addMenuItem(profileMenuItem);
+                    menuToUseForProfiles.addMenuItem(profileMenuItem);
                 }
 
-                this.menu.addMenuItem(this.commandProfiles);
+                if (commandProfiles) this.menu.addMenuItem(commandProfiles);
 
                 this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
         }
 
-        const commandSettings = new PopupMenu.PopupMenuItem(_("Settings"));
-        commandSettings.connect("activate", () => {
+        const commandSettings = new PopupMenu.PopupMenuItem(_('Settings'));
+        commandSettings.connect('activate', () => {
             if (ExtensionUtils.openPrefs) {
                 Log.debug('Opening preferences.');
                 ExtensionUtils.openPrefs();
@@ -123,12 +128,21 @@ var ProxyMenu = class {
         this.menu.addMenuItem(commandSettings);
 
         if (this.config.getShowOpenSettingsFile()) {
-            const commandSettingsFile = new PopupMenu.PopupMenuItem(_("Open Settings File"));
-            commandSettingsFile.connect("activate", () => {
+            const commandSettingsFile = new PopupMenu.PopupMenuItem(_('Open Settings File'));
+            commandSettingsFile.connect('activate', () => {
                 Log.debug('Opening settings file.');
                 Util.trySpawnCommandLine(`gedit ${this.config.getConfigFile().get_path()}`);
             });
             this.menu.addMenuItem(commandSettingsFile);
+        }
+
+        if (this.config.getShowOpenNetworkSettings()) {
+            const networkSettings = new PopupMenu.PopupMenuItem(_('Open Network Settings'));
+            networkSettings.connect('activate', () => {
+                Log.debug('Opening network settings.');
+                Util.trySpawnCommandLine('gnome-control-center network');
+            });
+            this.menu.addMenuItem(networkSettings);
         }
 
         this.refreshMenu();

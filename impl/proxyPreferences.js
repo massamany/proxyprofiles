@@ -35,6 +35,8 @@ var ProxyPreferences = class {
             'iconProxyAutoFileChooser',
             'showStatusSwitch',
             'showOpenSettingsFileSwitch',
+            'showOpenNetworkSettingsSwitch',
+            'showProfilesAsSubMenuSwitch',
             'autoActivateModeOnApplyProfileSwitch',
             'activateDebugLogsSwitch',
             'profileStack',
@@ -74,6 +76,8 @@ var ProxyPreferences = class {
         this.config.getIconProxyAuto(true) && this.iconProxyAutoFileChooser.set_filename(this.config.getIconProxyAuto(true));
         this.showStatusSwitch.set_active(this.config.getShowStatus());
         this.showOpenSettingsFileSwitch.set_active(this.config.getShowOpenSettingsFile());
+        this.showOpenNetworkSettingsSwitch.set_active(this.config.getShowOpenNetworkSettings());
+        this.showProfilesAsSubMenuSwitch.set_active(this.config.getShowProfilesAsSubMenu());
         this.autoActivateModeOnApplyProfileSwitch.set_active(this.config.getAutoActivateModeOnApplyProfile());
         this.activateDebugLogsSwitch.set_active(this.config.getActivateDebugLogs());
 
@@ -175,6 +179,16 @@ var ProxyPreferences = class {
     onShowOpenSettingsFileSwitchToggled() {
         Log.debug('Switch Show Settings File.');
         this.config.setShowOpenSettingsFile(this.showOpenSettingsFileSwitch.active);
+    }
+
+    onShowOpenNetworkSettingsSwitchToggled() {
+        Log.debug('Switch Show Network Settings.');
+        this.config.setShowOpenNetworkSettings(this.showOpenNetworkSettingsSwitch.active);
+    }
+
+    onShowProfilesAsSubMenuSwitchToggled() {
+        Log.debug('Switch Show Profiles As Sub Menu.');
+        this.config.setShowProfilesAsSubMenu(this.showProfilesAsSubMenuSwitch.active);
     }
 
     onAutoActivateModeOnApplyProfileSwitchToggled() {
@@ -283,7 +297,7 @@ var ProxyPreferences = class {
     }
 
     createProfileRow(profile, isNew) {
-        Log.debug("Creating row for " + (isNew ? 'new ' : '') + "profile : " + profile.name);
+        Log.debug('Creating row for ' + (isNew ? 'new ' : '') + 'profile : ' + profile.name);
         const self = this;
         let profileListBoxRowItemBuilder = new Gtk.Builder();
         let profileSettingsGridBuilder = new Gtk.Builder();
@@ -342,7 +356,7 @@ var ProxyPreferences = class {
             },
 
             recomputePortSensitive(proxyType) {
-                Log.debug("Recomputing port sensitive for " + proxyType);
+                Log.debug('Recomputing port sensitive for ' + proxyType);
                 const hostEntry = this['profile' + proxyType + 'HostEntry'];
                 const portEntry = this['profile' + proxyType + 'PortEntry'];
                 if (hostEntry.get_text()) {
@@ -448,7 +462,7 @@ var ProxyPreferences = class {
             },
 
             onProfileFromCurrentButtonClicked() {
-                Log.debug("Retrieving current configuration to profile " + this.profile.name);
+                Log.debug('Retrieving current configuration to profile ' + this.profile.name);
                 const savedName = this.profileNameEntry.get_text();
                 let mode = NONE.label;
                 if (this.profileModeManualRadio.active) mode = MANUAL.label;
@@ -459,12 +473,12 @@ var ProxyPreferences = class {
             },
 
             onProfileCancelButtonClicked() {
-                Log.debug("Cancel profile modifications " + this.profile.name);
+                Log.debug('Cancel profile modifications ' + this.profile.name);
                 this.fromProfile(this.profile, false);
             },
 
             onProfileSaveButtonClicked() {
-                Log.debug("Save profile modifications " + this.profile.name);
+                Log.debug('Save profile modifications ' + this.profile.name);
                 this.toProfile(true);
                 if (this.isNew) {
                     self.newProfileRows.splice(self.newProfileRows.indexOf(this), 1);

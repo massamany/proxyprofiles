@@ -281,8 +281,25 @@ var ProxyConfig = class {
 
     setActivateDebugLogs(activateDebugLogs) {
         this.conf.activateDebugLogs = activateDebugLogs === true ? true : undefined;
-        log('tata ' + this.getActivateDebugLogs());
         Log.setActivateDebug(this.getActivateDebugLogs());
+        this.write();
+    }
+
+    getShowOpenNetworkSettings() {
+        return this.conf.showOpenNetworkSettings === true ? true : false;
+    }
+
+    setShowOpenNetworkSettings(showOpenNetworkSettings) {
+        this.conf.showOpenNetworkSettings = showOpenNetworkSettings === true ? true : undefined;
+        this.write();
+    }
+
+    getShowProfilesAsSubMenu() {
+        return this.conf.showProfilesAsSubMenu === false ? false : true;
+    }
+
+    setShowProfilesAsSubMenu(showProfilesAsSubMenu) {
+        this.conf.showProfilesAsSubMenu = showProfilesAsSubMenu === false ? false : undefined;
         this.write();
     }
 }

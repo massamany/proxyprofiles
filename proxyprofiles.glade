@@ -640,7 +640,7 @@ Pour plus de détails, visitez &lt;a href="https://www.gnu.org/licenses/gpl-3.0.
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">5</property>
+                <property name="top_attach">7</property>
               </packing>
             </child>
             <child>
@@ -654,7 +654,7 @@ Pour plus de détails, visitez &lt;a href="https://www.gnu.org/licenses/gpl-3.0.
               </object>
               <packing>
                 <property name="left_attach">1</property>
-                <property name="top_attach">5</property>
+                <property name="top_attach">7</property>
               </packing>
             </child>
             <child>
@@ -666,7 +666,7 @@ Pour plus de détails, visitez &lt;a href="https://www.gnu.org/licenses/gpl-3.0.
               </object>
               <packing>
                 <property name="left_attach">0</property>
-                <property name="top_attach">6</property>
+                <property name="top_attach">8</property>
               </packing>
             </child>
             <child>
@@ -680,8 +680,65 @@ Pour plus de détails, visitez &lt;a href="https://www.gnu.org/licenses/gpl-3.0.
               </object>
               <packing>
                 <property name="left_attach">1</property>
+                <property name="top_attach">8</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="showOpenNetworkSettingsLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Show open system network settings</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
+                <property name="top_attach">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel" id="showProfilesAsSubMenuLabel">
+                <property name="visible">True</property>
+                <property name="can_focus">False</property>
+                <property name="halign">start</property>
+                <property name="label" translatable="yes">Show profiles as sub menu</property>
+              </object>
+              <packing>
+                <property name="left_attach">0</property>
                 <property name="top_attach">6</property>
               </packing>
+            </child>
+            <child>
+              <object class="GtkSwitch" id="showOpenNetworkSettingsSwitch">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="halign">start</property>
+                <property name="valign">center</property>
+                <signal name="notify::active" handler="onShowOpenNetworkSettingsSwitchToggled" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">5</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkSwitch" id="showProfilesAsSubMenuSwitch">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="halign">start</property>
+                <property name="valign">center</property>
+                <property name="active">True</property>
+                <signal name="notify::active" handler="onShowProfilesAsSubMenuSwitchToggled" swapped="no"/>
+              </object>
+              <packing>
+                <property name="left_attach">1</property>
+                <property name="top_attach">6</property>
+              </packing>
+            </child>
+            <child>
+              <placeholder/>
+            </child>
+            <child>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>

@@ -12,10 +12,10 @@ var Log = class Log {
     }
 
     static debug(msg) {
-        if (_debugActivated) this.log("[debug] " + msg);
+        if (_debugActivated) this.log('[debug] ' + msg);
     }
 
     static log(msg) {
-        log("[ProxyProfiles] " + _prefix + msg);
+        log('[ProxyProfiles] ' + _prefix + msg);
     }
 }
