@@ -184,7 +184,7 @@ var ProxySettings = class {
         if (tmp) {
             const defVal = this.proxySetting.get_default_value('ignore-hosts').get_strv().join(','); //No space here for join !
             if (tmp != defVal) {
-               tmp = tmp.split(',')
+                tmp = tmp.split(',')
                 this.proxySetting.set_strv('ignore-hosts', tmp);
             }
             else this.proxySetting.reset('ignore-hosts');

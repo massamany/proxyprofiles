@@ -90,6 +90,7 @@ var ProxyMenu = class {
 
         const profiles = this.config.getProfiles();
 
+        this.profilesMenuItems = {};
         if (profiles && profiles.length) {
                 let menuToUseForProfiles = this.menu;
                 let commandProfiles = undefined;
@@ -101,6 +102,7 @@ var ProxyMenu = class {
                 for (let profile of profiles) {
                     const profileMenuItem = new PopupMenu.PopupMenuItem(profile.name);
                     profileMenuItem.connect('activate', () => this.config.applyProfile(profile.name));
+                    this.profilesMenuItems[profile.name] = profileMenuItem;
                     menuToUseForProfiles.addMenuItem(profileMenuItem);
                 }
 
@@ -175,6 +177,9 @@ var ProxyMenu = class {
             else modeLib = _('Proxy: ') + _('Automatic');
             this.icon.gicon = this.iconAuto;
         }
+
+        for (let profileMenuItem in this.profilesMenuItems) this.profilesMenuItems[profileMenuItem].setSensitive(true);
+        if (current.profile) this.profilesMenuItems[current.profile.name].setSensitive(false);
         
         if (this.config.getShowStatus()) this.commandCurrent.label.text = modeLib;
     }
