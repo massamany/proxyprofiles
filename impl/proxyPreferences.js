@@ -25,9 +25,6 @@ var ProxyPreferences = class {
         this.builder = new Gtk.Builder();
         this.builder.set_translation_domain('proxyprofiles');
         this.builder.add_objects_from_file(GLADE_FILE, ['main']);
-        this.builder.connect_signals_full((builder, object, signal, handler) => {
-            object.connect(signal, this[handler].bind(this));
-        });
         this.loadWidgets(this, this.builder, [
             'main',
             'iconNoProxyFileChooser',
@@ -52,6 +49,11 @@ var ProxyPreferences = class {
 
         this.refreshConfig();
 
+        // After config loaded, connect the events
+        this.builder.connect_signals_full((builder, object, signal, handler) => {
+            object.connect(signal, this[handler].bind(this));
+        });
+
         // At the time buildPrefsWidget() is called, the window is not yet prepared
         // so if you want to access the headerbar you need to use a small trick
         GLib.timeout_add(0, 0, () => {
@@ -74,12 +76,13 @@ var ProxyPreferences = class {
         this.config.getIconNoProxy(true) && this.iconNoProxyFileChooser.set_filename(this.config.getIconNoProxy(true));
         this.config.getIconProxyManual(true) && this.iconProxyManualFileChooser.set_filename(this.config.getIconProxyManual(true));
         this.config.getIconProxyAuto(true) && this.iconProxyAutoFileChooser.set_filename(this.config.getIconProxyAuto(true));
-        this.showStatusSwitch.set_active(this.config.getShowStatus());
-        this.showOpenSettingsFileSwitch.set_active(this.config.getShowOpenSettingsFile());
-        this.showOpenNetworkSettingsSwitch.set_active(this.config.getShowOpenNetworkSettings());
-        this.showProfilesAsSubMenuSwitch.set_active(this.config.getShowProfilesAsSubMenu());
-        this.autoActivateModeOnApplyProfileSwitch.set_active(this.config.getAutoActivateModeOnApplyProfile());
-        this.activateDebugLogsSwitch.set_active(this.config.getActivateDebugLogs());
+
+        this.showStatusSwitch.active = this.config.getShowStatus();
+        this.showOpenSettingsFileSwitch.active = this.config.getShowOpenSettingsFile();
+        this.showOpenNetworkSettingsSwitch.active = this.config.getShowOpenNetworkSettings();
+        this.showProfilesAsSubMenuSwitch.active = this.config.getShowProfilesAsSubMenu();
+        this.autoActivateModeOnApplyProfileSwitch.active = this.config.getAutoActivateModeOnApplyProfile();
+        this.activateDebugLogsSwitch.active = this.config.getActivateDebugLogs();
 
         // Saving current user editions
         const profiles = {};
@@ -549,10 +552,6 @@ var ProxyPreferences = class {
             }
         };
 
-        profileSettingsGridBuilder.connect_signals_full((builder, object, signal, handler) => {
-            object.connect(signal, row[handler].bind(row));
-        });
-
         this.loadWidgets(row, profileListBoxRowItemBuilder, [
             'profileListBoxRow',
             'profileRowNameLabel',
@@ -594,6 +593,12 @@ var ProxyPreferences = class {
         else this.profileRows.push(row);
         this.profilesListBox.add(row.profileListBoxRow);
         this.profileStack.add_named(row.profileSettingsGrid, row.uuid);
+
+        // After config loaded, connect the events
+        profileSettingsGridBuilder.connect_signals_full((builder, object, signal, handler) => {
+            object.connect(signal, row[handler].bind(row));
+        });
+
         return row;
     }
 

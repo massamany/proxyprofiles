@@ -44,8 +44,6 @@ var ProxyMenu = class {
     createContainer() {
         this.container = new PanelMenu.Button(St.Align.START, 'ProxyProfiles');
         this.icon = new St.Icon({gicon: this.iconNone, style_class: 'system-status-icon'});
-        this.icon = new St.Icon({gicon: Gio.icon_new_for_string(Me.path + '/icons/proxy.png'), style_class: 'system-status-icon'});
-        //this.icon = new St.Icon({icon_name: 'preferences-system-network-proxy-symbolic', style_class: 'system-status-icon'});
 
         let hbox = new St.BoxLayout({style_class: 'panel-status-menu-box' });
         hbox.add_child(this.icon);
