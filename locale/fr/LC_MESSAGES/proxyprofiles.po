@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2020-03-01 23:49+CET\n"
-"PO-Revision-Date: 2020-08-03 22:51+0200\n"
+"PO-Revision-Date: 2020-08-08 00:37+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -22,6 +22,9 @@ msgstr "Général"
 
 msgid "Profiles"
 msgstr "Profils"
+
+msgid "New Profile"
+msgstr "Nouveau Profile"
 
 msgid "Add new profile"
 msgstr "Ajouter un nouveau profile"
@@ -130,6 +133,9 @@ msgstr "Paramètres"
 
 msgid "Open Settings File"
 msgstr "Ouvrir le Fichier de Paramètres"
+
+msgid "Open Network Settings"
+msgstr "Ouvrir les Paramètres réseau"
 
 msgid "Icon for no proxy"
 msgstr "Icône pour proxy désactivé"
