@@ -41,7 +41,8 @@ var ProxyPreferences = class {
             'profilesAddToolButton',
             'profilesRemoveToolButton',
             'profilesMoveUpToolButton',
-            'profilesMoveDownToolButton'
+            'profilesMoveDownToolButton',
+            'messageLabel'
         ]);
 
         this.config.onChangedConfig(this.refreshConfig.bind(this));
@@ -76,6 +77,8 @@ var ProxyPreferences = class {
         this.config.getIconNoProxy(true) && this.iconNoProxyFileChooser.set_filename(this.config.getIconNoProxy(true));
         this.config.getIconProxyManual(true) && this.iconProxyManualFileChooser.set_filename(this.config.getIconProxyManual(true));
         this.config.getIconProxyAuto(true) && this.iconProxyAutoFileChooser.set_filename(this.config.getIconProxyAuto(true));
+
+        this.messageLabel.set_text('');
 
         this.showStatusSwitch.active = this.config.getShowStatus();
         this.showOpenSettingsFileSwitch.active = this.config.getShowOpenSettingsFile();
@@ -118,14 +121,14 @@ var ProxyPreferences = class {
             selectedProfileRow = this.searchProfileRowByName(selectedProfileRow.profile.name);
         }
 
+        this.recomputeNamesDuplicates();
+
         if (selectedProfileRow) {
             this.profilesListBox.select_row(selectedProfileRow.profileListBoxRow);
         }
         else if (this.profileRows.length) this.profilesListBox.select_row(this.profileRows[0].profileListBoxRow);
         else if (this.newProfileRows.length) this.profilesListBox.select_row(this.newProfileRows[0].profileListBoxRow);
         else this.onProfilesListBoxRowSelected();
-
-        this.recomputeNamesDuplicates();
     }
 
     searchProfileRowByName(name) {
@@ -258,6 +261,7 @@ var ProxyPreferences = class {
         let row = this.getSelectedProfileRow();
         if (!!row) {
             this.profileStack.set_visible_child_name(row.uuid);
+            this.messageLabel.set_text(row.messageLabelText);
         }
 
         if (! row || row.isNew) {
@@ -325,6 +329,7 @@ var ProxyPreferences = class {
             recomputeComponentsSensitive(mode) {
                 Log.debug('Computing sensibility for mode: ' + mode);
                 this.profileHttpLabel.set_sensitive(mode === MANUAL.label);
+                this.profileAuthenticationLabel.set_sensitive(mode === MANUAL.label);
                 this.profileHttpsLabel.set_sensitive(mode === MANUAL.label);
                 this.profileFtpLabel.set_sensitive(mode === MANUAL.label);
                 this.profileSocksLabel.set_sensitive(mode === MANUAL.label);
@@ -357,13 +362,18 @@ var ProxyPreferences = class {
             },
 
             recomputeSaveButtonSensitive(mode) {
-                const authenOk = mode !== MANUAL.label
+                const authentOk = mode !== MANUAL.label
                     || !this.profileAuthenticationActivateSwitch.active
                     || (this.profileAuthenticationUserEntry.get_text() && this.profileAuthenticationPasswordEntry.get_text());
-                this.profileSaveButton.set_sensitive(
-                    this.isUniqueName
-                    && (mode === MANUAL.label || mode === AUTO.label)
-                    && authenOk);
+                const modeOk = (mode === MANUAL.label || mode === AUTO.label);
+
+                this.profileSaveButton.set_sensitive(this.isUniqueName && modeOk && authentOk);
+
+                this.messageLabelText = '';
+                if (! modeOk) this.messageLabelText = _('Please choose proxy mode.');
+                else if (! this.isUniqueName) this.messageLabelText = _('Profile name must be unique.');
+                else if (! authentOk) this.messageLabelText = _('Authentication is not filled correctly.');
+                self.messageLabel.set_text(this.messageLabelText);
             },
 
             recomputePortSensitive(proxyType) {
@@ -565,6 +575,7 @@ var ProxyPreferences = class {
             'profileModeAutoRadio',
             'profileModeNoneRadio',
             'profileHttpLabel',
+            'profileAuthenticationLabel',
             'profileHttpsLabel',
             'profileFtpLabel',
             'profileSocksLabel',
