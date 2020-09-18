@@ -233,7 +233,8 @@ var ProxyConfig = class {
 
     profileIndex(name) {
         let i = 0;
-        while (this.conf && i < this.conf.profiles.length && this.conf.profiles[i].name !== name) ++ i;
+        const profiles = this.getProfiles();
+        while (i < profiles.length && profiles[i].name !== name) ++ i;
         return i;
     }
 
