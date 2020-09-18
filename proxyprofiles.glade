@@ -464,7 +464,7 @@
     <property name="can_focus">False</property>
     <property name="type_hint">dialog</property>
     <property name="program_name">Proxy Profiles</property>
-    <property name="version">1.0.0</property>
+    <property name="version">Version 3</property>
     <property name="comments" translatable="yes">Gnome-Shell Extension to swich easily between several proxy profiles.</property>
     <property name="website">https://github.com/massamany/proxyprofiles</property>
     <property name="license" translatable="yes">Ce programme est fourni sans aucune garantie.
