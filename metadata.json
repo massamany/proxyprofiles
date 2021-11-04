@@ -6,6 +6,6 @@
   "url": "https://github.com/massamany/proxyprofiles",
   "gettext-domain": "proxyprofiles",
   "shell-version": [
-    "3.36"
+    "3.36", "3.38", "40.5"
   ]
 }
