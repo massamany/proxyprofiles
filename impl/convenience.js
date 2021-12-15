@@ -14,9 +14,14 @@ const ExtensionUtils = imports.misc.extensionUtils;
  */
 function initTranslations(domain) {
     let extension = ExtensionUtils.getCurrentExtension();
-    
-    domain = domain || extension.metadata['gettext-domain'];
-    
+
+    if (! domain && extension && extension.metadata) {
+        domain = extension.metadata["gettext-domain"];
+    }
+    if (! domain) {
+        domain = "proxyprofiles";
+    }
+
     // check if this extension was built with "make zip-file", and thus
     // has the locale files in a subfolder
     // otherwise assume that extension has been installed in the
@@ -38,11 +43,11 @@ function initTranslations(domain) {
  */
 function getSettings(schema) {
     let extension = ExtensionUtils.getCurrentExtension();
-    
+
     schema = schema || extension.metadata['settings-schema'];
-    
+
     const GioSSS = Gio.SettingsSchemaSource;
-    
+
     // check if this extension was built with "make zip-file", and thus
     // has the schema files in a subfolder
     // otherwise assume that extension has been installed in the
@@ -54,12 +59,12 @@ function getSettings(schema) {
         schemaSource = GioSSS.new_from_directory(schemaDir.get_path(), GioSSS.get_default(), false);
         else
             schemaSource = GioSSS.get_default();
-        
+
         let schemaObj = schemaSource.lookup(schema, true);
     if (!schemaObj)
         throw new Error('Schema ' + schema + ' could not be found for extension '
         + extension.metadata.uuid + '. Please check your installation.');
-    
+
     return new Gio.Settings({ settings_schema: schemaObj });
 }
 
